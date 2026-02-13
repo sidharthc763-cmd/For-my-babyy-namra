@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Baby 💖</title>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Quicksand', sans-serif; background: #fff1f2; overflow-x: hidden; overflow-y: auto; margin: 0; min-height: 100vh; }
+        .handwritten { font-family: 'Dancing Script', cursive; }
+
+        /* Floating Background Layer */
+        .floating { position: fixed; pointer-events: none; animation: floatUp 8s linear infinite; opacity: 0; z-index: 1; }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.8; }
+            85% { opacity: 0.8; }
+            100% { transform: translateY(-15vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Polaroid Styling */
+        .polaroid {
+            background: white; padding: 12px 12px 35px 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s; border: 1px solid #fff;
+        }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 50; }
+
+        /* HEART BURST FINALE ANIMATION */
+        .burst-element {
+            position: absolute; pointer-events: none;
+            animation: heartPop 3s ease-out forwards;
+            z-index: 100;
+        }
+        @keyframes heartPop {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(var(--s)) rotate(var(--r)); opacity: 0; }
+        }
+
+        /* NEON GLOW TEXT */
+        .neon-text {
+            text-shadow: 0 0 10px #fff, 0 0 20px #ff007f, 0 0 30px #ff007f;
+            animation: neonPulse 1.5s infinite alternate;
+        }
+        @keyframes neonPulse {
+            from { opacity: 0.8; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* Fancy Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #fff1f2; }
+        ::-webkit-scrollbar-thumb { background: #fb7185; border-radius: 10px; }
+    </style>
+</head>
+<body x-data="valentineApp()">
+
+    <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
+
+    <template x-for="n in 10">
+        <div class="floating" :style="`left: ${Math.random() * 100}vw; animation-delay: ${Math.random() * 5}s; font-size: 25px; color: #fb7185;`" x-text="'❤️'"></div>
+    </template>
+    <template x-for="n in [1,2,3,4,5,6,7,8,9]">
+        <img :src="`sticker${n}.png`" class="floating" :style="`left: ${Math.random() * 90}vw; width: 75px; animation-delay: ${Math.random() * 15}s;`" @error="$el.style.display='none'"> 
+    </template>
+
+    <div class="min-h-screen flex items-center justify-center p-4 relative z-10 py-20">
+
+        <div x-show="step === 1" class="text-center">
+            <h1 class="text-3xl mb-10 handwritten text-rose-500">Huuuuu Baby...</h1>
+            <button @click="startExperience()" class="bg-rose-500 text-white px-12 py-6 rounded-full text-3xl font-bold shadow-2xl hover:scale-110 transition-all">There is a surpise for youuu 🎁</button>
+        </div>
+
+        <div x-show="step === 2" class="text-center">
+            <div class="flex justify-center mb-6">
+                <img src="special.png" class="w-40 md:w-56 drop-shadow-xl animate-bounce" @error="$el.style.display='none'">
+            </div>
+
+            <h2 class="text-6xl handwritten text-rose-600 mb-16 drop-shadow-md">Will you be my Valentine? 🌹</h2>
+            
+            <div class="flex gap-12 justify-center items-center h-40">
+                <button @click="step = 3" class="bg-green-500 text-white px-14 py-5 rounded-full text-3xl font-bold shadow-xl hover:bg-green-600 transition-colors">YES!</button>
+                <button @mouseover="moveNoButton()" :style="noButtonStyle" class="bg-rose-500 text-white px-14 py-5 rounded-full text-3xl font-bold absolute transition-all duration-75">No</button>
+            </div>
+        </div>
+
+        <div x-show="step === 3" class="text-center w-full max-w-5xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="polaroid" style="transform: rotate(-4deg)"><img src="photo1.jpg" class="w-full h-64 object-cover"><p class="handwritten text-2xl mt-4">My Ummachikutty🫠</p></div>
+                <div class="polaroid" style="transform: rotate(3deg)"><img src="photo2.jpg" class="w-full h-64 object-cover"><p class="handwritten text-2xl mt-4">Prettiestt🦋</p></div>
+                <div class="polaroid" style="transform: rotate(-2deg)"><img src="photo3.jpg" class="w-full h-64 object-cover"><p class="handwritten text-2xl mt-4">My babbyy🤭</p></div>
+            </div>
+            <button @click="step = 4; window.scrollTo(0,0)" class="bg-rose-500 text-white px-10 py-4 rounded-full font-bold text-xl shadow-lg hover:scale-105 transition">SOME MORE YOUS ✨</button>
+        </div>
+
+        <div x-show="step === 4" class="text-center w-full max-w-5xl">
+            <h2 class="text-4xl handwritten text-rose-500 mb-8">Can't get enough of you...</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="polaroid" style="transform: rotate(2deg)"><img src="photo4.jpg" class="w-full h-64 object-cover"><p class="handwritten text-2xl mt-4">Cutieee pieee🥧🥰</p></div>
+                <div class="polaroid" style="transform: rotate(-3deg)"><img src="photo0.png" class="w-full h-64 object-cover"><p class="handwritten text-2xl mt-4">My favourite eyes👀</p></div>
+                <div class="polaroid" style="transform: rotate(1deg)"><img src="photo5.jpg" class="w-full h-64 object-cover"><p class="handwritten text-2xl mt-4">My favourite smile🩷</p></div>
+            </div>
+            <button @click="step = 5; window.scrollTo(0,0)" class="bg-rose-500 text-white px-10 py-4 rounded-full font-bold text-xl shadow-lg hover:scale-105 transition">Open Letter ✉️</button>
+        </div>
+
+        <div x-show="step === 5" class="max-w-xl w-full bg-white/95 p-8 md:p-12 rounded-[40px] shadow-2xl text-center border-b-8 border-rose-200 my-10">
+            <div class="flex justify-center gap-4 text-3xl mb-4">🦋💖🧁</div>
+            <div class="max-h-[400px] overflow-y-auto pr-4 text-left">
+                <p class="text-gray-700 handwritten text-2xl md:text-3xl leading-relaxed">
+                    My Dearest Namra Baby,<br><br>
+                      You are my world💗. This is our first Valentine's together, and I am soooo happy that u chose mee. I know things were hard in the past but surely there will be good times ahead for u and for us.I am so proud to have you in my life. The strongest woman I have ever seen💐.I hope our love towards each other grows everyday🌹🫶.I want nothing else in my life than to be with you.To listen and watch you.To listen ur beautiful voice, to argue with you, to laugh with you,to show u things and share things with u,to explore your magnificent mind and to explore ur wonderful body,to help you, to protect you, to serve you💝💝😘.I love you with the depth and passion i never felt for someone else before in this life.In you I found everything I want. You are beautiful, kind,giving,caring and very autistic(best part). I want you to know that I love you more than all the stars in the sky. Forever yours!❤️‍🩹
+                </p>
+            </div>
+            <button @click="step = 6; window.scrollTo(0,0)" class="bg-rose-600 text-white px-14 py-4 rounded-full font-bold text-xl shadow-lg mt-8 hover:scale-105 transition">Next 💖</button>
+        </div>
+
+        <div x-show="step === 6" 
+     x-init="$watch('step', value => { if(value === 6) { startLoading() } })"
+     class="text-center w-full max-w-md bg-white/90 p-10 rounded-[50px] shadow-2xl border-2 border-rose-200 relative z-20">
+    
+    <div class="flex justify-center mb-6">
+        <img src="s1.png" class="w-48 h-48 object-contain animate-pulse" @error="$el.style.display='none'">
+    </div>
+
+    <h2 class="text-4xl handwritten text-rose-600 mb-8">Sending Virtual Hugs...</h2>
+
+    <div class="w-full bg-rose-100 rounded-full h-8 mb-4 overflow-hidden border-2 border-rose-200 p-1 shadow-inner">
+        <div class="bg-gradient-to-r from-rose-400 to-rose-600 h-full rounded-full transition-all duration-100 ease-linear"
+             :style="`width: ${hugProgress}%` ">
+        </div>
+    </div>
+
+    <div class="h-12 flex items-center justify-center">
+        <template x-if="hugProgress < 100">
+            <p class="text-rose-400 font-bold animate-pulse text-xl">
+                Hugging in progress: <span x-text="hugProgress"></span>%
+            </p>
+        </template>
+        <template x-if="hugProgress >= 100">
+            <p class="text-rose-600 font-bold text-2xl handwritten tracking-wide animate-bounce">
+                ✨ Virtual hugs sent to my babyyyy! ✨
+            </p>
+        </template>
+    </div>
+
+    <div class="mt-8 h-16">
+        <button x-show="hugProgress >= 100" 
+                x-transition:enter="transition ease-out duration-500"
+                x-transition:enter-start="opacity-0 scale-90"
+                @click="step = 7; window.scrollTo(0,0)" 
+                class="bg-rose-500 text-white px-10 py-3 rounded-full font-bold text-xl shadow-lg hover:scale-105 transition active:scale-95">
+            Receive Hugs 🤗
+        </button>
+    </div>
+</div>
+        <div x-show="step === 7" class="text-center w-full max-w-2xl relative">
+            <h2 class="text-4xl handwritten text-rose-600 mb-10 drop-shadow-sm">You're my favorite view...</h2>
+            
+            <div class="relative bg-white p-4 pb-12 shadow-2xl rounded-sm border-[12px] border-white inline-block">
+                <img src="vh1.png" class="absolute -top-10 -left-10 w-24 h-24 z-20 animate-bounce">
+                <img src="vh2.png" class="absolute -top-10 -right-10 w-24 h-24 z-20 animate-pulse">
+                <img src="vh3.png" class="absolute -bottom-10 -left-10 w-24 h-24 z-20 hover:scale-125 transition">
+                <img src="vh4.png" class="absolute -bottom-10 -right-10 w-24 h-24 z-20 rotate-12">
+
+                <img src="vh.jpg" class="w-full max-w-sm h-auto object-cover rounded-sm border border-gray-100" @error="$el.src='https://via.placeholder.com/400x500?text=Your+Favorite+Photo'">
+            </div>
+
+            <div class="mt-16">
+                <button @click="step = 8; window.scrollTo(0,0)" class="bg-rose-500 text-white px-12 py-4 rounded-full font-bold text-xl shadow-lg hover:bg-rose-600 transition">
+                    Our Memories 📸
+                </button>
+            </div>
+        </div>
+        <div x-show="step === 8" class="text-center w-full max-w-5xl">
+            <h2 class="text-4xl handwritten text-rose-500 mb-10">Our Best Memories...</h2>
+            <div class="relative h-[600px] w-full flex items-center justify-center">
+                <div class="polaroid w-44 md:w-56 absolute" style="transform: rotate(-10deg) translate(-140px, -100px);"><img src="bg2.jpg" class="w-full h-44 object-cover"></div>
+                <div class="polaroid w-44 md:w-56 absolute" style="transform: rotate(5deg) translate(140px, -80px);"><img src="bg3.jpg" class="w-full h-44 object-cover"></div>
+                <div class="polaroid w-44 md:w-56 absolute" style="transform: rotate(-3deg) translate(0, -20px); z-index: 10;"><img src="bg6.jpg" class="w-full h-44 object-cover"></div>
+                <div class="polaroid w-44 md:w-56 absolute" style="transform: rotate(12deg) translate(-120px, 120px);"><img src="bg4.jpg" class="w-full h-44 object-cover"></div>
+                <div class="polaroid w-44 md:w-56 absolute" style="transform: rotate(-8deg) translate(120px, 140px);"><img src="bg1.jpg" class="w-full h-44 object-cover"></div>
+            </div>
+            <button @click="step = 9; window.scrollTo(0,0)" class="bg-rose-400 text-white px-10 py-3 rounded-full shadow-lg font-bold text-lg animate-bounce mt-10">Click for a Surprise! 🎆</button>
+        </div>
+
+        <div x-show="step === 9" class="text-center py-20 relative min-h-screen flex flex-col items-center justify-center overflow-hidden w-full">
+            <template x-for="i in 60">
+                <div class="burst-element" :style="`
+                    --tx: ${(Math.random() - 0.5) * 100}vw; 
+                    --ty: ${(Math.random() - 0.5) * 100}vh; 
+                    --r: ${Math.random() * 360}deg;
+                    --s: ${Math.random() * 2 + 1};
+                    left: 50%; top: 50%;
+                    animation-delay: ${Math.random() * 2}s;
+                `">
+                    <template x-if="Math.random() > 0.4">
+                        <span class="text-rose-500" :style="`font-size: ${Math.random()*30+20}px`" x-text="'❤️'"></span>
+                    </template>
+                    <template x-if="Math.random() <= 0.4">
+                        <img :src="`sticker${Math.floor(Math.random()*9)+1}.png`" style="width: 80px; height: 80px;">
+                    </template>
+                </div>
+            </template>
+            <h1 class="text-6xl md:text-9xl handwritten text-white neon-text mb-6">I LOVE YOU SO MUCH</h1>
+            <h2 class="text-4xl md:text-6xl font-bold text-rose-400">HAPPY VALENTINES DAY! 🌹</h2>
+            <button @click="location.reload()" class="mt-20 text-rose-300 underline handwritten text-2xl relative z-[110]">Start from beginning?</button>
+        </div>
+        </div>
+
+    </div>
+
+   <script>
+    function valentineApp() {
+        return {
+            step: 1,
+            noButtonStyle: '',
+            hugProgress: 0, // <--- Add this
+            startExperience() {
+                this.step = 2;
+                let music = document.getElementById('bgMusic');
+                music.volume = 0.6;
+                music.play();
+            },
+            moveNoButton() {
+                const x = Math.random() * (window.innerWidth - 180);
+                const y = Math.random() * (window.innerHeight - 80);
+                this.noButtonStyle = `left: ${x}px; top: ${y}px; position: fixed; z-index: 1000;`;
+            },
+            // THE NEW LOADING FUNCTION
+            startLoading() {
+                this.hugProgress = 0;
+                let interval = setInterval(() => {
+                    if (this.hugProgress < 100) {
+                        this.hugProgress += 1;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 40); // 40ms per 1% = roughly 4 seconds total
+            }
+        }
+    }
+</script>
+</body>
+</html>
